@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Падающие цветочки</title>
+    <!-- Bootstrap CSS -->
+    
+    <link href="style.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Заголовок -->
+        <div class="header">
+            <h1>✨ Цветочный Дождь! ✨</h1>
+            <p class="lead">Самый яркий и веселый сайт с падающими цветочками</p>
+        </div>
+        
+        <!-- Основной контент -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="content text-center">
+                        <h2>Добро пожаловать на наш цветочный праздник!</h2>
+                        <p>На этом сайте цветочки падают с неба просто потому что могут! Наслаждайтесь этим прекрасным зрелищем.</p>
+                        
+                        <div class="my-4">
+                            <button id="moreFlowers" class="btn btn-flower btn-lg me-2">Ещё цветочки!</button>
+                            <button id="changeSpeed" class="btn btn-flower btn-lg">Изменить скорость</button>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <p>Попробуйте поймать цветочки! (Но это невозможно 😊)</p>
+                            <div class="bg-success p-3 rounded text-white">
+                                <h4>Счётчик пойманных цветочков: <span id="counter">0</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class = "container">
+            <div class = "row">
+                <div class = "border col"> <p> цветочки цветочки</p></div>
+                    
+                
+            </div>
+            <div class = "row">
+                <div class = "bg-success col" style="height: 100px;"><p>цветочки цветочки</p>
+                </div>
+                <div class = "border col"style="height: 100px;"> <p> цветочки цветочки</p></div>
+                    <div class = "bg-success col"style="height: 100px;"><p>цветочки цветочки</p>
+                    </div>
+            </div>
+            <div class = "row">
+                <div class = "border col"> <p> цветочки цветочки</p></div>
+                    
+            </div>
+            <div class = "row">
+                <div class = "bg-success col"><p>цветочки цветочки</p>
+                </div>
+                <div class = "border col"> <p> цветочки цветочки</p></div>
+                <div class = "bg-success col"><p>цветочки цветочки</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+       // Переменная для хранения текущего типа курсора
+       let currentCursor = 'default';
+        
+        // Функция для создания цветочка
+        function createFlower(speed = 10) {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            
+            // Случайный выбор цветка
+            const flowers = ['🌼', '🌸', '🌺', '🌻', '🌷', '💐', '🥀', '🌹'];
+            const randomFlower = flowers[Math.floor(Math.random() * flowers.length)];
+            
+            flower.innerHTML = `<span style="font-size: ${Math.random() * 30 + 20}px;">${randomFlower}</span>`;
+            
+            // Случайная позиция
+            const startPosition = Math.random() * window.innerWidth;
+            flower.style.left = `${startPosition}px`;
+            
+            // Случайная скорость
+            const duration = Math.random() * 5 + speed;
+            flower.style.animationDuration = `${duration}s`;
+            
+            document.body.appendChild(flower);
+            
+            // Удаляем цветок после завершения анимации
+            setTimeout(() => {
+                if (flower.parentNode) {
+                    flower.remove();
+                }
+            }, duration * 1000);
+            
+            // Добавляем обработчик клика для "ловли" цветочков
+            flower.addEventListener('click', () => {
+                flower.remove();
+                const counter = document.getElementById('counter');
+                counter.textContent = parseInt(counter.textContent) + 1;
+                
+                // Добавляем взрыв confetti
+                for (let i = 0; i < 10; i++) {
+                    createConfetti(flower.offsetLeft, flower.offsetTop);
+                }
+            });
+            
+            // Добавляем эффект при наведении на цветок
+            flower.addEventListener('mousemove', (e) => {
+                const hoverEffect = document.getElementById('hoverEffect');
+                hoverEffect.style.display = 'block';
+                hoverEffect.style.left = `${e.pageX - 30}px`;
+                hoverEffect.style.top = `${e.pageY - 30}px`;
+            });
+            
+            flower.addEventListener('mouseleave', () => {
+                const hoverEffect = document.getElementById('hoverEffect');
+                hoverEffect.style.display = 'none';
+            });
+        }
+        
+        // Функция для создания confetti
+        function createConfetti(x, y) {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'absolute';
+            confetti.style.left = `${x}px`;
+            confetti.style.top = `${y}px`;
+            confetti.style.fontSize = '20px';
+            confetti.textContent = '✨';
+            confetti.style.zIndex = '100';
+            
+            document.body.appendChild(confetti);
+            
+            // Анимация confetti
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 5 + 2;
+            const xSpeed = Math.cos(angle) * speed;
+            const ySpeed = Math.sin(angle) * speed;
+            
+            let posX = x;
+            let posY = y;
+            let gravity = 0.1;
+            
+            const animate = () => {
+                posX += xSpeed;
+                posY += ySpeed;
+                ySpeed += gravity;
+                
+                confetti.style.left = `${posX}px`;
+                confetti.style.top = `${posY}px`;
+                
+                if (posY < window.innerHeight) {
+                    requestAnimationFrame(animate);
+                } else {
+                    confetti.remove();
+                }
+            };
+            
+            animate();
+        }
+        
+        // Функция для изменения курсора
+        function changeCursor() {
+            const cursors = ['default', 'pointer', 'crosshair', 'grab'];
+            const cursorStyles = [
+                'default',
+                'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 40 40\'><circle cx=\'20\' cy=\'20\' r=\'18\' fill=\'none\' stroke=\'%23ff66b2\' stroke-width=\'2\'/></svg>") 20 20, auto',
+                'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'40\' height=\'40\' viewBox=\'0 0 40 40\'><path d=\'M10,10 L30,30 M30,10 L10,30\' stroke=\'%23ff66b2\' stroke-width=\'3\'/></svg>") 20 20, auto'
+            ];
+            
+            currentCursor = (currentCursor + 1) % cursorStyles.length;
+            document.body.style.cursor = cursorStyles[currentCursor];
+            
+            // Обновляем текст кнопки
+            const cursorButton = document.getElementById('changeCursor');
+            const cursorNames = ['Обычный', 'Кружок', 'Прицел'];
+            cursorButton.textContent = `Курсор: ${cursorNames[currentCursor]}`;
+        }
+        
+        // Создаем начальные цветочки
+        let speed = 5;
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => createFlower(speed), i * 300);
+        }
+        
+        // Обработчики кнопок
+        document.getElementById('moreFlowers').addEventListener('click', () => {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => createFlower(speed), i * 300);
+            }
+        });
+        
+        document.getElementById('changeSpeed').addEventListener('click', () => {
+            speed = speed === 5 ? 2 : (speed === 2 ? 10 : 5);
+            const speedButton = document.getElementById('changeSpeed');
+            const speedNames = {2: 'Медленно', 5: 'Нормально', 10: 'Быстро'};
+            speedButton.textContent = `Скорость: ${speedNames[speed]}`;
+        });
+        
+        document.getElementById('changeCursor').addEventListener('click', changeCursor);
+        
+        // Постоянное создание цветочков
+        setInterval(() => createFlower(speed), 800);
+    </script>
+</body>
+</html>

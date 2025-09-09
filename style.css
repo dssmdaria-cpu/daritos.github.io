@@ -1,0 +1,87 @@
+body {
+    background: linear-gradient(to bottom, #ffcce6, #ccffcc);
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    cursor: default; /* Устанавливаем курсор по умолчанию для всей страницы */
+}
+
+.header {
+    padding: 2rem;
+    text-align: center;
+    background-color: #ff99cc;
+    border-radius: 0 0 50% 50%;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #ff0066;
+    text-shadow: 2px 2px 0 #fff;
+    font-size: 3rem;
+}
+
+.flower {
+    position: absolute;
+    top: -100px;
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    z-index: 1;
+    cursor: pointer; /* Изменяем курсор на указатель при наведении на цветок */
+    transition: transform 0.2s; /* Плавное увеличение при наведении */
+}
+
+.flower:hover {
+    transform: scale(1.2); /* Увеличиваем цветок при наведении */
+}
+
+@keyframes fall {
+    from { transform: translateY(-100px) rotate(0deg); }
+    to { transform: translateY(100vh) rotate(360deg); }
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.btn-flower {
+    background: linear-gradient(to bottom, #ff66b2, #ff1a8c);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    transition: all 0.3s;
+    cursor: pointer; /* Убедимся, что на кнопках курсор меняется */
+}
+
+.btn-flower:hover {
+    transform: scale(1.1);
+    background: linear-gradient(to bottom, #ff1a8c, #e60073);
+}
+
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #ff99cc;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Стили для подсветки при наведении на цветок */
+.flower-hover-effect {
+    display: none;
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    z-index: 0;
+}
